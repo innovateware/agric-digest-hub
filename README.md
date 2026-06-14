@@ -67,7 +67,15 @@ Convex Auth needs JWT signing keys on your deployment. Without them, registratio
 
 `Missing environment variable JWT_PRIVATE_KEY`
 
-**Option A — Interactive wizard (easiest):**
+**Option A — One command (recommended):**
+
+```bash
+npm run setup:auth:env
+```
+
+This generates JWT keys and sets `JWT_PRIVATE_KEY`, `JWKS`, and `SITE_URL` on your Convex deployment. Restart `npx convex dev` afterward.
+
+**Option B — Interactive wizard:**
 
 ```bash
 npx @convex-dev/auth
@@ -75,7 +83,7 @@ npx @convex-dev/auth
 
 When prompted, enter your frontend URL (e.g. `http://localhost:5173`). This sets `SITE_URL`, `JWT_PRIVATE_KEY`, and `JWKS` on your Convex deployment.
 
-**Option B — Manual setup:**
+**Option C — Manual setup:**
 
 ```bash
 npm run setup:auth
@@ -140,7 +148,9 @@ Open [http://localhost:5173](http://localhost:5173).
 |---------|-------------|
 | `npm run dev` | Start Vite dev server |
 | `npm run dev:convex` | Start Convex dev server |
-| `npm run seed` | Seed sample statistical data (local) |
+| `npm run setup:auth` | Print JWT keys for manual Convex env setup |
+| `npm run setup:auth:env` | Generate and set JWT keys on Convex deployment |
+| `npm run seed` | Seed sample statistical data |
 | `npm run build:all` | Regenerate Convex types + production build |
 | `npm run build` | Production build |
 | `npm run preview` | Preview production build |
@@ -172,6 +182,7 @@ npx convex deploy
 1. Create OAuth credentials in [Google Cloud Console](https://console.cloud.google.com)
 2. Add authorized redirect URI: `https://<your-convex-deployment>.convex.site/api/auth/callback/google`
 3. Set `AUTH_GOOGLE_ID` and `AUTH_GOOGLE_SECRET` in Convex Dashboard
+4. Add `VITE_ENABLE_GOOGLE_AUTH=true` to `.env.local` and restart the frontend
 
 ## Data Import
 

@@ -8,6 +8,7 @@
     "dev:convex": "convex dev",
     "seed": "convex run seed:default",
     "setup:auth": "node scripts/generateKeys.mjs",
+    "setup:auth:env": "node scripts/setupConvexAuthEnv.mjs",
     "build": "vite build",
     "build:all": "convex codegen && vite build",
     "lint": "eslint . --quiet",

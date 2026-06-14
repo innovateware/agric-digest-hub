@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { LogIn, Mail, Lock, Loader2 } from "lucide-react";
 import AuthLayout from "@/components/AuthLayout";
-import GoogleIcon from "@/components/GoogleIcon";
+import GoogleSignInSection from "@/components/GoogleSignInSection";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -34,14 +34,6 @@ export default function Login() {
     }
   };
 
-  const handleGoogle = async () => {
-    try {
-      await signIn("google", { redirectTo: window.location.origin + "/" });
-    } catch (err) {
-      setError(err.message || "Google sign-in is not configured");
-    }
-  };
-
   return (
     <AuthLayout
       icon={LogIn}
@@ -56,24 +48,7 @@ export default function Login() {
         </>
       }
     >
-      <Button
-        variant="outline"
-        className="w-full h-12 text-sm font-medium mb-6"
-        onClick={handleGoogle}
-        type="button"
-      >
-        <GoogleIcon className="w-5 h-5 mr-2" />
-        Continue with Google
-      </Button>
-
-      <div className="relative mb-6">
-        <div className="absolute inset-0 flex items-center">
-          <div className="w-full border-t border-border" />
-        </div>
-        <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-card px-3 text-muted-foreground">or</span>
-        </div>
-      </div>
+      <GoogleSignInSection onError={setError} />
 
       {error && (
         <div className="mb-4 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
