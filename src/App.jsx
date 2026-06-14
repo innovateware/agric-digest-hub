@@ -17,6 +17,8 @@ import Analytics from "@/pages/Analytics";
 import Reports from "@/pages/Reports";
 import AuditLog from "@/pages/AuditLog";
 import APIDocumentation from "@/pages/APIDocumentation";
+import UserManagement from "@/pages/UserManagement";
+import UserProfile from "@/pages/UserProfile";
 
 const AuthenticatedApp = () => {
   const { isLoadingAuth } = useAuth();
@@ -44,6 +46,8 @@ const AuthenticatedApp = () => {
           <Route path="/reports" element={<Reports />} />
           <Route path="/audit-log" element={<AuditLog />} />
           <Route path="/api-docs" element={<APIDocumentation />} />
+          <Route path="/users" element={<UserManagement />} />
+          <Route path="/profile" element={<UserProfile />} />
         </Route>
       </Route>
       <Route path="*" element={<PageNotFound />} />

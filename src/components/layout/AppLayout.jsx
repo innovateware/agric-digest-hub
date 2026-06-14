@@ -4,7 +4,7 @@ import { useAuth } from '@/lib/AuthContext';
 import {
   LayoutDashboard, Table2, Upload, BarChart3, Activity,
   Menu, LogOut, ChevronDown, Sun, Moon,
-  ClipboardList, Code
+  ClipboardList, Code, Users, User
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import {
@@ -22,6 +22,7 @@ const NAV_ITEMS = [
 ];
 
 const ADMIN_NAV_ITEMS = [
+  { path: '/users', label: 'User Management', icon: Users, adminOnly: true },
   { path: '/api-docs', label: 'API Docs', icon: Code, adminOnly: true },
 ];
 
@@ -173,7 +174,14 @@ export default function AppLayout() {
                 <p className="text-xs text-muted-foreground">{user?.email}</p>
               </div>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={() => logout('/')}>
+              <DropdownMenuItem asChild>
+                <Link to="/profile" className="flex items-center w-full cursor-pointer">
+                  <User className="w-4 h-4 mr-2" />
+                  My Profile
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={() => logout('/')} className="cursor-pointer">
                 <LogOut className="w-4 h-4 mr-2" />
                 Log out
               </DropdownMenuItem>

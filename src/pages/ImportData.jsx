@@ -2,7 +2,6 @@ import { useState, useCallback } from "react";
 import { useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 // @ts-ignore
-import { MONTHS } from "@/lib/useStatisticalData";
 import { parseSpreadsheetFile } from "@/lib/parseSpreadsheet";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
