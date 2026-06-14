@@ -61,7 +61,39 @@ cp .env.example .env.local
 |----------|-------------|
 | `VITE_CONVEX_URL` | Your Convex deployment URL (set automatically by `npx convex dev`) |
 
-### Convex Dashboard (Production)
+### Convex Auth (required before signup)
+
+Convex Auth needs JWT signing keys on your deployment. Without them, registration/login fails with:
+
+`Missing environment variable JWT_PRIVATE_KEY`
+
+**Option A — Interactive wizard (easiest):**
+
+```bash
+npx @convex-dev/auth
+```
+
+When prompted, enter your frontend URL (e.g. `http://localhost:5173`). This sets `SITE_URL`, `JWT_PRIVATE_KEY`, and `JWKS` on your Convex deployment.
+
+**Option B — Manual setup:**
+
+```bash
+npm run setup:auth
+```
+
+Copy the output and set each variable on your deployment:
+
+```bash
+npx convex env set SITE_URL http://localhost:5173
+npx convex env set JWT_PRIVATE_KEY "<paste private key from script output>"
+npx convex env set JWKS '<paste jwks json from script output>'
+```
+
+Or set the same three variables in the [Convex Dashboard](https://dashboard.convex.dev) → your project → Settings → Environment Variables.
+
+After setting variables, restart `npx convex dev` if it is already running.
+
+### Convex Dashboard (optional)
 
 Set these in the [Convex Dashboard](https://dashboard.convex.dev) under Settings → Environment Variables:
 
@@ -97,9 +129,10 @@ Open [http://localhost:5173](http://localhost:5173).
 
 ### First-time setup
 
-1. Register a new account at `/register`
-2. The first user becomes an `admin` automatically
-3. Start adding data via the Data Table or Import page
+1. **Configure Convex Auth** (see [Convex Auth section](#convex-auth-required-before-signup) above)
+2. Register a new account at `/register`
+3. The first user becomes an `admin` automatically
+4. Start adding data via the Data Table or Import page
 
 ## Available Scripts
 
