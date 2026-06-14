@@ -11,8 +11,7 @@ const provider = passwordProvider as any;
 const originalAuthorize = provider.options!.authorize!;
 
 provider.authorize = provider.options!.authorize = async (params: any, ctx: any) => {
-  const flow = params.flow as string;
-  if (flow === "signIn" && typeof params.email === "string") {
+  if (typeof params.email === "string") {
     // Repair the orphaned account if needed before retrieving it.
     await ctx.runMutation(internal.users.repairOrphanedAccount, {
       email: params.email,
