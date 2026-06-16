@@ -1,8 +1,17 @@
-#env
+# ── Environment ──────────────────────────────────────────────────────────────
+# Never commit real env files — use .env.example as the template
 .env
 .env.*
+!.env.example
 
-# Logs
+# ── Build output ─────────────────────────────────────────────────────────────
+dist
+dist-ssr
+
+# ── Dependencies ─────────────────────────────────────────────────────────────
+node_modules
+
+# ── Logs ─────────────────────────────────────────────────────────────────────
 /logs
 *.log
 npm-debug.log*
@@ -11,20 +20,24 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# ── Vite / tool caches ───────────────────────────────────────────────────────
+.vite
 *.local
 
-# Editor directories and files
+# ── Convex generated files ───────────────────────────────────────────────────
+# These are regenerated automatically by `npx convex dev` / `npx convex deploy`
+convex/_generated/
+
+# ── Editor ───────────────────────────────────────────────────────────────────
 .vscode/*
 !.vscode/extensions.json
 .idea
-.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
 *.sln
 *.sw?
+.DS_Store
 
-.vite
+# ── OS ───────────────────────────────────────────────────────────────────────
+Thumbs.db

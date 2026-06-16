@@ -1,0 +1,55 @@
+name: Deploy Convex Backend
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # allow manual trigger from GitHub UI
+
+concurrency:
+  group: convex-deploy-${{ github.ref }}
+  cancel-in-progress: false # never cancel an in-flight deploy
+
+jobs:
+  deploy:
+    name: Deploy to Convex Production
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      # ── 1. Checkout ───────────────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── 2. Node.js ────────────────────────────────────────────────────────
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      # ── 3. Install dependencies ───────────────────────────────────────────
+      - name: Install dependencies
+        run: npm ci --prefer-offline
+
+      # ── 4. Deploy Convex ──────────────────────────────────────────────────
+      # CONVEX_DEPLOY_KEY must be set in:
+      #   GitHub → Repository → Settings → Secrets and Variables
+      #   → Actions → New repository secret
+      #   Name:  CONVEX_DEPLOY_KEY
+      #   Value: (prod deploy key from Convex Dashboard → Settings → Deploy keys)
+      - name: Deploy Convex functions and schema
+        run: npx convex deploy --cmd 'npm run build'
+        env:
+          CONVEX_DEPLOY_KEY: ${{ secrets.CONVEX_DEPLOY_KEY }}
+
+      # ── 5. Notify on failure ──────────────────────────────────────────────
+      - name: Report deployment status
+        if: failure()
+        run: |
+          echo "::error::Convex deployment failed. Check the logs above for details."
+          echo "::error::Common issues:"
+          echo "::error::  - CONVEX_DEPLOY_KEY secret not set or expired"
+          echo "::error::  - Schema validation error"
+          echo "::error::  - TypeScript/function errors in convex/ directory"
+          exit 1
