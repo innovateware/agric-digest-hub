@@ -1,8 +1,40 @@
 import { getAuthUserId } from "@convex-dev/auth/server";
 import { v } from "convex/values";
-import { mutation, query, internalMutation } from "./_generated/server";
+import { mutation, query, internalMutation, action } from "./_generated/server";
 import { getUserProfile, getCurrentUserEmail } from "./lib/permissions";
 import { Scrypt } from "lucia";
+
+export const testFetch = action({
+  args: {},
+  handler: async (ctx) => {
+    const url = (process.env.CONVEX_SITE_URL ?? "") + "/.well-known/openid-configuration";
+    try {
+      const res = await fetch(url);
+      const text = await res.text();
+      return {
+        url,
+        status: res.status,
+        ok: res.ok,
+        body: text,
+      };
+    } catch (e: any) {
+      return {
+        url,
+        error: e.message ?? String(e),
+      };
+    }
+  },
+});
+
+export const testEnv = query({
+  args: {},
+  handler: async (ctx) => {
+    return {
+      CONVEX_SITE_URL: process.env.CONVEX_SITE_URL ?? null,
+      SITE_URL: process.env.SITE_URL ?? null,
+    };
+  },
+});
 
 export const currentUser = query({
   args: {},
