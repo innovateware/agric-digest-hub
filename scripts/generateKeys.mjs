@@ -6,4 +6,4 @@ const publicKey = await exportJWK(keys.publicKey);
 const jwks = JSON.stringify({ keys: [{ use: "sig", ...publicKey }] });
 
 console.log(`JWT_PRIVATE_KEY=${JSON.stringify(privateKey.trimEnd())}`);
-console.log(`JWKS=${JSON.stringify(jwks)}`);
+console.log(`JWKS=${jwks}`);

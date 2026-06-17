@@ -11,7 +11,7 @@ const args = process.argv.slice(2);
 const prodFlag = args.includes("--prod");
 const siteUrlArg = args.find((a) => !a.startsWith("--"));
 const siteUrl =
-  siteUrlArg ?? (prodFlag ? "https://agri-digest-hub.vercel.app" : "http://localhost:5173");
+  siteUrlArg ?? (prodFlag ? "https://agricdigesthub.vercel.app" : "http://localhost:5173");
 
 const projectRoot = new URL("..", import.meta.url).pathname;
 
@@ -30,7 +30,7 @@ const pemSingleLine = privateKey.trimEnd().replace(/\n/g, "\\n");
 
 const envFileContent =
   `JWT_PRIVATE_KEY="${pemSingleLine}"\n` +
-  `JWKS=${JSON.stringify(jwks)}\n` +
+  `JWKS=${jwks}\n` +
   `SITE_URL=${siteUrl}\n`;
 
 const deploymentFlag = prodFlag ? "--prod" : "";
@@ -47,5 +47,5 @@ try {
 } finally {
   try {
     unlinkSync(tmpFile);
-  } catch (_) {}
+  } catch (_) { }
 }
