@@ -1,0 +1,7 @@
+{
+  "exceptions": [
+    "https://github.com/advisories/GHSA-67mh-4wv8-2f99",
+    "https://github.com/advisories/GHSA-gv7w-rqvm-qjhr",
+    "https://github.com/advisories/GHSA-96hv-2xvq-fx4p"
+  ]
+}
