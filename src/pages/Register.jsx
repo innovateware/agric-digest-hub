@@ -37,7 +37,14 @@ export default function Register() {
       await ensureProfile({});
       navigate("/");
     } catch (err) {
-      setError(err.message || "Registration failed");
+      const msg = err.message ?? "";
+      if (msg.includes("AccountAlreadyExists") || msg.includes("already exists")) {
+        setError("An account with this email already exists. Please log in instead.");
+      } else if (msg.includes("InvalidPassword") || msg.includes("Invalid password")) {
+        setError("Password must be at least 8 characters long.");
+      } else {
+        setError(msg || "Registration failed. Please try again.");
+      }
     } finally {
       setLoading(false);
     }

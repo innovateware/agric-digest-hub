@@ -28,7 +28,14 @@ export default function Login() {
       await ensureProfile({});
       navigate("/");
     } catch (err) {
-      setError(err.message || "Invalid email or password");
+      const msg = err.message ?? "";
+      if (msg.includes("InvalidAccountId") || msg.includes("InvalidSecret") || msg.includes("Invalid credentials")) {
+        setError("Invalid email or password. Please try again.");
+      } else if (msg.includes("TooManyFailedAttempts")) {
+        setError("Too many failed attempts. Please wait a few minutes and try again.");
+      } else {
+        setError(msg || "Sign-in failed. Please try again.");
+      }
     } finally {
       setLoading(false);
     }
